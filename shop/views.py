@@ -3,6 +3,9 @@ from .models import Category, Product, Brand, Country, Universe, Character, Size
 from cart.forms import CartAddProductForm
 from cart.cart import Cart
 from django.views.decorators.http import require_POST
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+
 
 def product_list(request, category_slug=None, brand_slug=None, country_slug=None, 
                  universe_slug=None, character_slug=None, size_slug=None, material_slug=None):
@@ -92,12 +95,6 @@ def product_detail(request, id, slug):
                    'in_cart': in_cart,
                    })
 
-
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from .models import Product
 
 
 @login_required
