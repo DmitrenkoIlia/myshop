@@ -7,78 +7,82 @@ from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
 
-def product_list(request, category_slug=None, brand_slug=None, country_slug=None, 
-                 universe_slug=None, character_slug=None, size_slug=None, material_slug=None):
+def product_list(request, category_slug=None):
+    """
+    Відображає список товарів з можливістю фільтрації за категорією
+    та множинними GET-параметрами.
+    """
     category = None
-    brand = None
-    country = None
-    universe = None
-    character = None
-    size = None
-    material = None
-    
-    categories = Category.objects.all()
-    brands = Brand.objects.all()
-    countries = Country.objects.all()
-    universes = Universe.objects.all()
-    characters = Character.objects.all()
-    sizes = Size.objects.all()
-    materials = Material.objects.all()
-    
     products = Product.objects.filter(available=True)
-    
-    # Фильтрация по категории
+
+    # 1. Фільтрація по категорії (якщо є в URL)
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
+
+    # 2. Отримання параметрів фільтрації з URL
+    # request.GET.get('brand') візьме значення ?brand=...
+    filter_params = {
+        'brand': request.GET.get('brand'),
+        'country': request.GET.get('country'),
+        'universe': request.GET.get('universe'),
+        'character': request.GET.get('character'),
+        'size': request.GET.get('size'),
+        'material': request.GET.get('material'),
+    }
+
+    # 3. Застосування фільтрів до запиту
+    if filter_params['brand']:
+        slugs = filter_params['brand'].split(',')
+        products = products.filter(brand__slug__in=slugs)
+
+    if filter_params['country']:
+        slugs = filter_params['country'].split(',')
+        products = products.filter(country__slug__in=slugs)
+
+    if filter_params['universe']:
+        slugs = filter_params['universe'].split(',')
+        products = products.filter(universe__slug__in=slugs)
     
-    # Фильтрация по бренду
-    if brand_slug:
-        brand = get_object_or_404(Brand, slug=brand_slug)
-        products = products.filter(brand=brand)
+    if filter_params['character']:
+        slugs = filter_params['character'].split(',')
+        products = products.filter(character__slug__in=slugs)
+
+    if filter_params['size']:
+        slugs = filter_params['size'].split(',')
+        products = products.filter(size__slug__in=slugs)
+
+    if filter_params['material']:
+        slugs = filter_params['material'].split(',')
+        products = products.filter(material__slug__in=slugs)
+
+    # 4. Видалення дублікатів, що важливо для ManyToMany полів
+    products = products.distinct()
+
+    # 5. Підготовка контексту для передачі в шаблон
+    context = {
+        'category': category,
+        'products': products,
+        
+        # Списки для відображення всіх опцій у фільтрах
+        'categories': Category.objects.all(),
+        'brands': Brand.objects.all(),
+        'countries': Country.objects.all(),
+        'universes': Universe.objects.all(),
+        'characters': Character.objects.all(),
+        'sizes': Size.objects.all(),
+        'materials': Material.objects.all(),
+        
+        # Списки обраних slug'ів для встановлення 'checked' у чекбоксах
+        'selected_brands': filter_params['brand'].split(',') if filter_params['brand'] else [],
+        'selected_countries': filter_params['country'].split(',') if filter_params['country'] else [],
+        'selected_universes': filter_params['universe'].split(',') if filter_params['universe'] else [],
+        'selected_characters': filter_params['character'].split(',') if filter_params['character'] else [],
+        'selected_sizes': filter_params['size'].split(',') if filter_params['size'] else [],
+        'selected_materials': filter_params['material'].split(',') if filter_params['material'] else [],
+    }
     
-    # Фильтрация по стране
-    if country_slug:
-        country = get_object_or_404(Country, slug=country_slug)
-        products = products.filter(country=country)
-    
-    # Фильтрация по вселенной (ManyToMany поле)
-    if universe_slug:
-        universe = get_object_or_404(Universe, slug=universe_slug)
-        products = products.filter(universe=universe)
-    
-    # Фильтрация по персонажу (ManyToMany поле)
-    if character_slug:
-        character = get_object_or_404(Character, slug=character_slug)
-        products = products.filter(character=character)
-    
-    # Фильтрация по размеру (ManyToMany поле)
-    if size_slug:
-        size = get_object_or_404(Size, slug=size_slug)
-        products = products.filter(size=size)
-    
-    # Фильтрация по материалу (ManyToMany поле)
-    if material_slug:
-        material = get_object_or_404(Material, slug=material_slug)
-        products = products.filter(material=material)
-    
-    return render(request,
-                  'shop/product/list.html',
-                  {'category': category,
-                   'categories': categories,
-                   'brand': brand,
-                   'brands': brands,
-                   'country': country,
-                   'countries': countries,
-                   'universe': universe,
-                   'universes': universes,
-                   'character': character,
-                   'characters': characters,
-                   'size': size,
-                   'sizes': sizes,
-                   'material': material,
-                   'materials': materials,
-                   'products': products})
+    return render(request, 'shop/product/list.html', context)
 
 def product_detail(request, id, slug):
     product = get_object_or_404(Product,

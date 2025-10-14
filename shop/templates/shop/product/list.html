@@ -10,8 +10,7 @@
     <span>Фільтри</span>
 </button>
 <div class="filter-overlay"></div>
-<div class="sort-button">
-</div>
+
 <div id="filter-sidebar">
     <div class="sidebar-header">
         <h3>Фільтри</h3>
@@ -20,21 +19,28 @@
     
     <div class="sidebar-content">
         <div class="product-filters">
+
+            <!-- Фільтр: Бренд -->
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Бренд</span>
                     <span class="toggle-icon"></span>
                 </button>
-            <div class="filter-options">
-                <ul>
-                    {% for b in brands %}
-                    <li class="filter-item {% if brand.slug == b.slug %}selected{% endif %}">
-                        <a href="{{ b.get_absolute_url }}">{{ b.name }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
+                <div class="filter-options">
+                    <ul>
+                        {% for b in brands %}
+                        <li>
+                            <label>
+                                <input type="checkbox" name="brand" value="{{ b.slug }}" {% if b.slug in selected_brands %}checked{% endif %}>
+                                {{ b.name }}
+                            </label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
-        </div>
+
+            <!-- Фільтр: Країна -->
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Країна</span>
@@ -43,14 +49,18 @@
                 <div class="filter-options">
                     <ul>
                         {% for co in countries %}
-                            <li class="filter-item {% if country.slug == co.slug %}selected{% endif %}">
-                                <a href="{{ co.get_absolute_url }}">{{ co.name }}</a>
-                            </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="country" value="{{ co.slug }}" {% if co.slug in selected_countries %}checked{% endif %}>
+                                {{ co.name }}
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
 
+            <!-- Фільтр: Всесвіт -->
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Всесвіт</span>
@@ -59,14 +69,16 @@
                 <div class="filter-options">
                     <ul>
                         {% for u in universes %}
-                            <li class="filter-item {% if universe.slug == u.slug %}selected{% endif %}">
-                                <a href="{{ u.get_absolute_url }}">{{ u.name }}</a>
-                            </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="universe" value="{{ u.slug }}" {% if u.slug in selected_universes %}checked{% endif %}>
+                                {{ u.name }}
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Персонаж</span>
@@ -75,14 +87,18 @@
                 <div class="filter-options">
                     <ul>
                         {% for ch in characters %}
-                            <li class="filter-item {% if character.slug == ch.slug %}selected{% endif %}">
-                                <a href="{{ ch.get_absolute_url }}">{{ ch.name }}</a>
-                            </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="character" value="{{ ch.slug }}" {% if ch.slug in selected_characters %}checked{% endif %}>
+                                {{ ch.name }}
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
 
+            <!-- Фільтр: Розмір -->
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Розмір</span>
@@ -91,14 +107,18 @@
                 <div class="filter-options">
                     <ul>
                         {% for s in sizes %}
-                            <li class="filter-item {% if size.slug == s.slug %}selected{% endif %}">
-                                <a href="{{ s.get_absolute_url }}">{{ s.value }}</a>
-                            </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="size" value="{{ s.slug }}" {% if s.slug in selected_sizes %}checked{% endif %}>
+                                {{ s.value }}
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
 
+            <!-- Фільтр: Матеріал -->
             <div class="filter-group">
                 <button class="accordion-toggle">
                     <span>Матеріал</span>
@@ -107,9 +127,12 @@
                 <div class="filter-options">
                     <ul>
                         {% for m in materials %}
-                            <li class="filter-item {% if material.slug == m.slug %}selected{% endif %}">
-                                <a href="{{ m.get_absolute_url }}">{{ m.name }}</a>
-                            </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" name="material" value="{{ m.slug }}" {% if m.slug in selected_materials %}checked{% endif %}>
+                                {{ m.name }}
+                            </label>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -119,11 +142,12 @@
     </div>
 
     <div class="sidebar-footer">
-        <button class="apply-btn">Застосувати</button>
-        <button class="reset-btn">Скинути</button>
+        <button id="apply-filters-btn" class="apply-btn">Застосувати</button>
+        <button id="reset-filters-btn" class="reset-btn">Скинути</button>
     </div>
 </div>
-</div>
+
+
         <div id="main" class="product-list">
         <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
         {% for product in products %}
