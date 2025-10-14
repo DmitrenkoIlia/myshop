@@ -1,0 +1,4 @@
+Django==5.2.4
+django-allauth==65.11.2
+Pillow==11.3
+celery==5.5.3

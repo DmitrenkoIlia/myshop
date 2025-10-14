@@ -1,0 +1,175 @@
+{% extends "shop/base.html" %}
+{% load static %}
+{% block title %}
+    {% if category %}{{ category.name }}{% else %}Товар{% endif %}
+{% endblock %}
+{% block content %}
+<div class="top-container">
+<button id="open-filter-btn" class="filter-trigger-button">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+    <span>Фільтри</span>
+</button>
+<div class="filter-overlay"></div>
+<div class="sort-button">
+</div>
+<div id="filter-sidebar">
+    <div class="sidebar-header">
+        <h3>Фільтри</h3>
+        <span class="sidebarr-close">&times;</span>
+    </div>
+    
+    <div class="sidebar-content">
+        <div class="product-filters">
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Бренд</span>
+                    <span class="toggle-icon"></span>
+                </button>
+            <div class="filter-options">
+                <ul>
+                    {% for b in brands %}
+                    <li class="filter-item {% if brand.slug == b.slug %}selected{% endif %}">
+                        <a href="{{ b.get_absolute_url }}">{{ b.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Країна</span>
+                    <span class="toggle-icon"></span>
+                </button>
+                <div class="filter-options">
+                    <ul>
+                        {% for co in countries %}
+                            <li class="filter-item {% if country.slug == co.slug %}selected{% endif %}">
+                                <a href="{{ co.get_absolute_url }}">{{ co.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Всесвіт</span>
+                    <span class="toggle-icon"></span>
+                </button>
+                <div class="filter-options">
+                    <ul>
+                        {% for u in universes %}
+                            <li class="filter-item {% if universe.slug == u.slug %}selected{% endif %}">
+                                <a href="{{ u.get_absolute_url }}">{{ u.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Персонаж</span>
+                    <span class="toggle-icon"></span>
+                </button>
+                <div class="filter-options">
+                    <ul>
+                        {% for ch in characters %}
+                            <li class="filter-item {% if character.slug == ch.slug %}selected{% endif %}">
+                                <a href="{{ ch.get_absolute_url }}">{{ ch.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Розмір</span>
+                    <span class="toggle-icon"></span>
+                </button>
+                <div class="filter-options">
+                    <ul>
+                        {% for s in sizes %}
+                            <li class="filter-item {% if size.slug == s.slug %}selected{% endif %}">
+                                <a href="{{ s.get_absolute_url }}">{{ s.value }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <button class="accordion-toggle">
+                    <span>Матеріал</span>
+                    <span class="toggle-icon"></span>
+                </button>
+                <div class="filter-options">
+                    <ul>
+                        {% for m in materials %}
+                            <li class="filter-item {% if material.slug == m.slug %}selected{% endif %}">
+                                <a href="{{ m.get_absolute_url }}">{{ m.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="sidebar-footer">
+        <button class="apply-btn">Застосувати</button>
+        <button class="reset-btn">Скинути</button>
+    </div>
+</div>
+</div>
+        <div id="main" class="product-list">
+        <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
+        {% for product in products %}
+            <div class="item">
+                <a href="{{ product.get_absolute_url }}">
+                    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_img.png' %}{% endif %}"
+                    alt="{{ product.name }}"
+                    class="product-image">
+                    </a>
+                <div class="name-info">
+                    <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+                </div>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'shop:toggle_wishlist' product.id %}" method="POST" class="wishlist-form">
+                        {% csrf_token %}
+                        <button type="submit"
+                                class="wishlist-toggle-btn {% if product in user.profile.wishlist.all %}active{% endif %}"
+                                data-liked-src="{% static 'img/liked_black.png' %}"
+                                data-unliked-src="{% static 'img/like_black.png' %}">
+
+                            {% if product in user.profile.wishlist.all %}
+                                <img src="{% static 'img/liked_black.png' %}" alt="В избранном">
+                            {% else %}
+                                <img src="{% static 'img/like_black.png' %}" alt="Добавить в избранное">
+                            {% endif %}
+                        </button>
+                    </form>
+                {% else %}
+                <div class="wish-login">
+                    <a href="{% url 'account_login' %}?next={{ request.path }}">
+                        <img src="{% static 'img/like_black.png' %}" alt="Войдите, чтобы добавить в избранное">
+                    </a>
+                </div>
+                {% endif %}
+                {% if product.discount > 0 %}
+                    <div class="discount-info">
+                        -{{ product.discount }}%
+                    </div>
+                    <div class="price">
+                        <span class="old-price">{{ product.price }} ₴</span>
+                        <span class="new-price">{{ product.sell_price }} ₴</span>
+                {% else %}
+                    <span class="price">{{ product.price }} ₴</span>
+                {% endif %}
+                    </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

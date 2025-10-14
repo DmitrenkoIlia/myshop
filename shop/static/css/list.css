@@ -1,0 +1,366 @@
+.product-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-content: center;
+    padding: 0 10px 0 10px;
+}
+
+@media (min-width: 500px) {
+    .product-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .price {
+        font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 800px) {
+    .product-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .price {
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 1100px) {
+    .product-list {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .price {
+        font-size: 1rem;
+    }
+}
+
+.product-list h1 {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+    grid-column: 1/-1;
+}
+
+.item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+    position: relative;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+.name-info a {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.2;
+}
+
+.price {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.product-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: block;
+    max-width: 100%;
+    max-height: 180px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.discount-info {
+    position: absolute;
+    top: 32px;
+    right: 5px;
+    background: rgb(255, 251, 0);
+    color: var(--main-color, #22223b);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    z-index: 2;
+    padding: 0;
+}
+
+.wishlist-toggle-btn {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    z-index: 3;
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255, 251, 0);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.wishlist-toggle-btn img{
+   height: var(--icon-size);
+   width: var(--icon-size);
+}
+
+.wish-login{
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    z-index: 3;
+
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgb(255, 251, 0);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.wish-login img{
+    margin-top: 3px;
+    height: var(--icon-size);
+    width: var(--icon-size);
+}
+
+.filter-trigger-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    margin: 0.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #000000;
+    background-color:  rgb(255, 255, 255);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.filter-trigger-button:hover {
+    background-color: #bababb;
+}
+
+body.filters-open #filter-sidebar {
+    transform: translateX(0);
+}
+body.filters-open .filter-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* --- Сайдбар та Оверлей --- */
+#filter-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    max-width: 90%;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.filter-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* --- Вміст сайдбару --- */
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+.sidebarr-close {
+    font-size: 2.5rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.sidebarr-close:hover {
+    color: #333;
+}
+.sidebar-content {
+    padding: 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+/* --- Стилі для акордеона всередині (з попередньої відповіді) --- */
+.product-filters {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+}
+.filter-group {
+    border-bottom: 1px solid #e9ecef;
+}
+.filter-group:last-child {
+    border-bottom: none;
+}
+.accordion-toggle {
+    background: none; border: none; width: 100%; display: flex;
+    justify-content: space-between; align-items: center;
+    padding: 15px 10px; cursor: pointer; font-size: 1rem;
+    font-weight: 600; text-align: left;
+}
+.toggle-icon {
+    width: 10px; height: 10px; border-right: 2px solid #888;
+    border-bottom: 2px solid #888; transform: rotate(45deg);
+    transition: transform 0.3s ease;
+}
+.accordion-toggle.active .toggle-icon {
+    transform: rotate(-135deg);
+}
+.filter-options {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+.filter-options ul {
+    list-style: none; padding: 0 10px 15px 10px; margin: 0;
+}
+.filter-item a {
+    display: block; padding: 8px 15px; text-decoration: none;
+    color: #495057; border-radius: 5px;
+}
+.filter-item.selected a {
+    color: #2b2b2b;;
+}
+
+.filter-item label {
+    display: flex;
+    align-items: center;
+    padding: 8px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.filter-item label:hover {
+    background-color: #f8f9fa;
+}
+
+/* Приховуємо стандартний чекбокс */
+.filter-item input[type="checkbox"] {
+    display: none;
+}
+
+/* Створюємо власний вигляд чекбокса */
+.filter-item label span {
+    position: relative;
+    padding-left: 30px; /* Відступ для кастомного чекбокса */
+    color: #495057;
+}
+
+.filter-item label span::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.2s;
+}
+
+/* Стиль для "галочки" всередині чекбокса */
+.filter-item label span::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    margin-top: -6px; /* Позиціонування галочки */
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0; /* Прихована за замовчуванням */
+    transition: opacity 0.2s;
+}
+
+/* Стилі для обраного стану */
+.filter-item input[type="checkbox"]:checked + span::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.filter-item input[type="checkbox"]:checked + span::after {
+    opacity: 1; /* Показуємо галочку */
+}
+
+.filter-item input[type="checkbox"]:checked + span {
+    font-weight: 600;
+    color: #212529;
+}
+
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}

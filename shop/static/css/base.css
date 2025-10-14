@@ -1,0 +1,248 @@
+
+:root {
+  --font-size: 1rem;
+  --icon-size: 20px;
+  --main-color: #111;
+  --background-color: white;
+  --white-text-color: white;
+    --bg-color: #ffffff;
+    --text-color: #333;
+    --accent-color: #000000;
+    --border-color: #e0e0e0;
+    --hover-bg: #f5f5f5;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --sidebar-width: 280px;
+    --transition-speed: 0.3s;
+  
+}
+
+body {
+  font-family: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif, sans-serif;
+  font-size: var(--font-size);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+h1 {
+  color: var(--main-color);
+}
+
+a {
+  text-decoration: none;
+  color: var(--main-color);
+
+}
+
+.nav-bg {
+  background: var(--main-color);
+  width: 100%;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 0.5rem;
+  background: none;
+  height: 40px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.cart img {
+  height: var(--icon-size);
+  width: var(--icon-size);
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.humburger-menu {
+  cursor: pointer;
+}
+
+.search {
+  cursor: pointer;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-weight: bold;
+}
+
+.cart-count {
+  background: rgb(255, 251, 0);
+  color: var(--main-color);
+  border-radius: 50%;
+  padding: 3px 6px;
+  font-size: 0.8rem;
+}
+
+.liked-count {
+    margin-right: 10px;
+}
+
+/* Применяем класс 'sidebar-open' к body для управления видимостью */
+body.sidebar-open #sidebar {
+    transform: translateX(0);
+    box-shadow: var(--shadow);
+}
+
+body.sidebar-open .sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* --- Сайдбар и оверлей --- */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-color);
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform var(--transition-speed) ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none; /* Не перехватывает клики, когда невидимый */
+    transition: opacity var(--transition-speed) ease-in-out;
+}
+
+.sidebar-content {
+    padding: 20px;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+}
+
+.sidebar-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2.5rem;
+    color: #888;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.sidebar-close:hover {
+    color: #333;
+}
+
+.sidebar-header {
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+.sidebar-header a {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text-color);
+}
+
+
+/* --- Стили аккордеона --- */
+.filter-section {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.accordion {
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    padding: 18px 5px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion:hover, .accordion.active {
+    background-color: var(--hover-bg);
+}
+
+.toggle-icon {
+    width: 12px;
+    height: 12px;
+    border-right: 2px solid #888;
+    border-bottom: 2px solid #888;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease-in-out;
+    margin-right: 10px;
+}
+
+.accordion.active .toggle-icon {
+    transform: rotate(-135deg);
+}
+
+.filter-list {
+    padding: 0 5px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.filter-list ul {
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+}
+
+.filter-list li {
+    margin: 4px 0;
+}
+
+.filter-list a {
+    display: block;
+    padding: 8px 10px;
+    text-decoration: none;
+    color: #555;
+    border-radius: 5px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.filter-list a:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-color);
+}
+
+.filter-list li.selected a {
+    color: var(--accent-color);
+    font-weight: 600;
+}
