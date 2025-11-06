@@ -4,45 +4,40 @@ from .models import UserProfile
 
 
 class UserUpdateForm(forms.ModelForm):
-    email = forms.EmailField(
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'})
-    )
-    first_name = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Имя'})
-    )
-    last_name = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Фамилия'})
-    )
-
     class Meta:
         model = User
         fields = ['email', 'first_name', 'last_name']
+        
+        labels = {
+            'email': "Електронна пошта",
+            'first_name': "Ім'я",
+            'last_name': 'Прізвище',
+        }
+
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': "Ваше ім'я"}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваше прізвище'}),
+        }
 
 
 class UserProfileUpdateForm(forms.ModelForm):
-    phone = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+380 (XX) XXX-XX-XX'})
-    )
-    city = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Місто'})
-    )
-    street = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Вулиця'})
-    )
-    house = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Будинок'})
-    )
-    flat = forms.CharField(
-        required=False,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Квартира'})
-    )
-
     class Meta:
         model = UserProfile
         fields = ['phone', 'city', 'street', 'house', 'flat']
+
+        labels = {
+            'phone': 'Телефон',
+            'city': 'Місто',
+            'street': 'Вулиця',
+            'house': 'Будинок',
+            'flat': 'Квартира',
+        }
+        
+        widgets = {
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+380 (XX) XXX-XX-XX'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр., Київ'}),
+            'street': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр., Хрещатик'}),
+            'house': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр., 26'}),
+            'flat': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Напр., 10'}),
+        }

@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from django.db import transaction
 from .models import OrderItem, Order
 from shop.models import Product
 from .forms import OrderCreateForm
 from cart.cart import Cart
-from .tasks import order_created
+from .tasks import order_created_task
 
 
 def order_create(request):
@@ -29,11 +30,15 @@ def order_create(request):
                     product.save()
 
             cart.clear()
-            order_created.delay(order.id)
+            order_created_task.delay(order.id)
 
-            return render(request, 'orders/created.html',
-                          {'order': order})
+            return redirect(reverse('orders:order_created', args=[order.id]))
     else:
         form = OrderCreateForm()
     return render(request, 'orders/create.html',
                   {'cart': cart, 'form': form})
+
+
+def order_created(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'orders/created.html', {'order': order})

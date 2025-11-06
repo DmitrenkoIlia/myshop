@@ -1,0 +1,180 @@
+.order-page-wrapper {
+    max-width: 1200px; /* Ваша вимога */
+    margin: 2rem auto;   /* Ваша вимога + вертикальні відступи */
+    padding: 0 1rem;
+    display: flex;
+    align-items: flex-start; /* Вирівнювання колонок по верху */
+    gap: 2rem; /* Відстань між колонками */
+}
+
+/* --- Ліва колонка (форма) --- */
+.order-form-container {
+    flex: 2; /* Робить колонку з формою вдвічі ширшою за колонку з замовленням */
+}
+
+.order-form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.order-form h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Стилізація полів, згенерованих через цикл */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    box-sizing: border-box; /* Важливо для правильного розрахунку ширини */
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: #212529;
+    outline: none;
+}
+
+/* --- Права колонка (інформація про замовлення) --- */
+.order-summary {
+    flex: 1; /* Займає одну частину гнучкого простору */
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.order-summary h3 {
+    margin-top: 0;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.order-summary ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.order-summary li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.95rem;
+}
+
+.order-summary li:last-child {
+    border-bottom: none;
+}
+
+.order-summary li span {
+    font-weight: 500;
+    white-space: nowrap;
+    margin-left: 1rem;
+}
+
+.order-summary .total {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #343a40;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #212529;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    background-color: #000;
+}
+
+@media (max-width: 992px) {
+    .order-page-wrapper {
+        flex-direction: column-reverse;
+    }
+}
+
+.thank-you-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    padding: 3rem;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 1.5rem;
+}
+
+.thank-you-container h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #28a745;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.thank-you-container p {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.thank-you-container strong {
+    color: #000;
+    font-weight: 600;
+    background-color: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+
+.continue-shopping-btn {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #212529;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.continue-shopping-btn:hover {
+    background-color: #000;
+}

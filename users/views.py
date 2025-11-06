@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from .forms import UserUpdateForm, UserProfileUpdateForm
 
 
@@ -25,10 +24,7 @@ def profile_edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Профиль успешно обновлен!')
             return render(request, 'profile.html')
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
     else:
         user_form = UserUpdateForm(instance=request.user)
         profile_form = UserProfileUpdateForm(instance=request.user.profile)

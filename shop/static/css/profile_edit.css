@@ -1,0 +1,82 @@
+.profile-edit-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.card {
+    border: none;
+    border-radius: 8px;
+}
+
+.card-header {
+    background-color: #ffffff;
+    padding: 0 0 0 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.card-header h4 {
+    font-weight: 600;
+    color: #343a40;
+}
+
+.card-body {
+    padding: 0 0 0 1rem;
+}
+
+h5.mb-3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #3a3a3a;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #3a3a3a;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border: none;
+    border-bottom: 1px solid #ced4da;
+    padding: 10px 14px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #000000;
+    box-shadow: 0 0 0 0.2rem rgba(61, 61, 61, 0.25);
+}
+
+.btn-primary {
+    background-color: #212529;
+    padding: 10px 25px;
+    font-weight: 500;
+    border-radius: 6px;
+    color: #ececec;
+}
+
+.btn-primary:hover {
+    background-color: #000;
+    border-color: #000;
+}
+
+.btn-secondary {
+    background-color: #fff;
+    border-color: #ced4da;
+    color: #212529;
+    padding: 10px 25px;
+    font-weight: 500;
+    border-radius: 6px;
+    margin-left: 1rem;
+}
+
+.btn-secondary:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+}
+
+hr.my-4 {
+    margin-top: 2rem !important;
+    margin-bottom: 2rem !important;
+}

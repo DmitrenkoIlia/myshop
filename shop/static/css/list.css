@@ -3,9 +3,10 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 0;
     justify-content: center;
     padding: 0 10px 0 10px;
+    border-collapse: collapse;
 }
 
 @media (min-width: 500px) {
@@ -44,8 +45,10 @@
 
 .item {
     border: 1px solid #ddd;
-    border-radius: 10px;
+    border-left: none;
+    border-top: none;
     text-align: center;
+    padding: 10px;
     transition: box-shadow 0.3s ease;
     position: relative;
     background: #fff;
@@ -362,4 +365,35 @@ body.filters-open .filter-overlay {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.apply-btn {
+    background-color: #212529;
+    padding: 10px 25px;
+    font-weight: 500;
+    border-radius: 6px;
+    color: #ececec;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.apply-btn:hover {
+    background-color: #141414;
+}
+
+.reset-btn {
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+.reset-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
 }

@@ -1,65 +1,77 @@
 {% extends "shop/base.html" %}
 {% load static %}
+
 {% block title %}
-    Your shopping cart
+    Корзина товарів
 {% endblock %}
+
 {% block content %}
-    <h1>Your shopping cart</h1>
-    <table class="cart">
-        <thead>
-        <tr>
-            <th>Image</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Remove</th>
-            <th>Unit price</th>
-            <th>Price</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for item in cart %}
-            {% with product=item.product %}
-                <tr>
-                    <td>
-                        <a href="{{ product.get_absolute_url }}">
-                            <img src="
-                                {% if product.image %}
-                                    {{ product.image.url }}
-                                {% else %}
-                                    {% static 'img/no_img.png' %}
-                                {% endif %}" alt="{{ product.name }}">
-                        </a>
-                    </td>
-                    <td>{{ product.name }}</td>
-                    <td>
-                    <form action="{% url 'cart:cart_add' item.product.id %}" method="post">
-                        {% csrf_token %}
-                        <input type="number"
-                               name="quantity"
-                               value="{{ item.quantity }}"
-                               min="1"
-                               max="{{ item.product.stock }}"
-                               class="form-control"
-                               style="width: 75px; text-align: center;"
-                               onchange="this.form.submit()">
-                        <input type="hidden" name="update" value="True">
-                    </form>
-                    </td>
-                    <td><a href="{% url 'cart:cart_remove' product.id %}">Remove</a></td>
-                    <td class="num">{{ item.price }} ₴</td>
-                    <td class="num">{{ item.total_price }} ₴</td>
-                </tr>
-            {% endwith %}
-        {% endfor %}
-        <tr class="total">
-            <td>Total</td>
-            <td colspan="4"></td>
-            <td class="num">{{ cart.get_total_price }} ₴</td>
-        </tr>
-        </tbody>
-    </table>
-    <p class="text-right">
-        <a href="{% url 'shop:product_list' %}" class="button light">Закрыть</a>
-        <a href="{% url 'orders:order_create' %}" class="button">Заказать</a>
-    </p>
+<div class="cart-container">
+    <h1>Корзина товарів</h1>
+    
+    <div class="table-responsive">
+        <table class="cart">
+            <thead>
+            <tr>
+                <th class="text-center">Зображення</th>
+                <th>Назва</th>
+                <th class="text-center">Кількість</th>
+                <th class="text-right">Ціна</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                {% with product=item.product %}
+                    <tr>
+                        <td class="text-center">
+                            <a href="{{ product.get_absolute_url }}">
+                                <img src="{% if product.images.all %}{{ product.images.first.image.url }}{% else %}{% static 'img/no_img.png' %}{% endif %}" alt="{{ product.name }}"
+                                class="cart-image">
+                            </a>
+                        </td>
+                        <td class="name">
+                            <div class="truncate-text">{{ product.name }}</div>
+                        </td>
+                        <td class="text-center">
+                            <form action="{% url 'cart:cart_add' item.product.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <input type="number"
+                                       name="quantity"
+                                       value="{{ item.quantity }}"
+                                       min="1"
+                                       onchange="this.form.submit()">
+                                <input type="hidden" name="update" value="True">
+                            </form>
+                        </td>
+                        <td class="num">{{ item.total_price }} ₴</td>
+                        <td class="text-center">
+                            <a href="{% url 'cart:cart_remove' product.id %}">Видалити</a>
+                        </td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+
+            {% if cart %}
+            <tr class="total">
+                <td colspan="3">В суммі</td>
+                <td class="num">{{ cart.get_total_price }} ₴</td>
+                <td></td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not cart %}
+        <p class="text-center">Ваш кошик порожній.</p>
+    {% endif %}
+
+    <div class="cart-actions">
+        <a href="{% url 'shop:product_list' %}" class="reset-btn">На головну</a>
+        {% if cart %}
+        <a href="{% url 'orders:order_create' %}" class="apply-btn">Замовити</a>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

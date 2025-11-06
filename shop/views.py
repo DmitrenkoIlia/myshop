@@ -5,6 +5,7 @@ from cart.cart import Cart
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def product_list(request, category_slug=None):
@@ -14,6 +15,13 @@ def product_list(request, category_slug=None):
     """
     category = None
     products = Product.objects.filter(available=True)
+
+    search_query = request.GET.get('q', '').strip()
+    if search_query:
+        products = products.filter(
+            Q(name__iregex=search_query) |
+            Q(description__iregex=search_query)
+        )
 
     # 1. Фільтрація по категорії (якщо є в URL)
     if category_slug:
@@ -63,6 +71,7 @@ def product_list(request, category_slug=None):
     context = {
         'category': category,
         'products': products,
+        'search_query': search_query,
         
         # Списки для відображення всіх опцій у фільтрах
         'categories': Category.objects.all(),

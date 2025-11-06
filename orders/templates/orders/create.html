@@ -1,11 +1,31 @@
 {% extends "shop/base.html" %}
 
-{% block title %}Оформление заказа{% endblock %}
+{% block title %}Оформлення замовлення{% endblock %}
 
 {% block content %}
-    <h1>Заказ</h1>
-    <div class="order-info">
-        <h3>Ваш заказ</h3>
+<div class="order-page-wrapper">
+
+    <div class="order-form-container">
+        <form method="post" class="order-form">
+            <h2>Інформація про доставку</h2>
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="text-danger small mt-1">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <input type="submit" value="Підтвердити замовлення" class="submit-btn">
+        </form>
+    </div>
+
+    <div class="order-summary">
+        <h3>Ваше замовлення</h3>
         <ul>
             {% for item in cart %}
                 <li>
@@ -14,11 +34,11 @@
                 </li>
             {% endfor %}
         </ul>
-        <p>В сумме: {{ cart.get_total_price }} ₴</p>
+        <div class="total">
+            <span>Всього:</span>
+            <span>{{ cart.get_total_price }} ₴</span>
+        </div>
     </div>
-    <form action="." method="post" class="order-form">
-        {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
-        {% csrf_token %}
-    </form>
+
+</div>
 {% endblock %}

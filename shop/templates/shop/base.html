@@ -9,6 +9,11 @@
     <title>{% block title %}Figure{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link href="{% static 'css/profile_edit.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/create.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
 </head>
 <body>
 <div class="container">
@@ -19,8 +24,19 @@
                     <div class="humburger-menu">
                         <img src="{% static 'img/humburger.svg' %}" alt="Menu">
                     </div>
-                    <div class="search">
+                    <div id="search-trigger" class="search">
                         <img src="{% static 'img/search_white.svg' %}" alt="Search">
+                    </div>
+                    <div class="search-overlay" id="search-overlay">
+                        <div class="search-container">
+                            <form action="{% url 'shop:product_list' %}" method="get" class="search-form">
+                                <input type="text" name="q" placeholder="Пошук товарів..." value="{{ search_query }}">
+                                <button type="submit">
+                                    <img src="{% static 'img/search_black.png' %}" alt="Search" class="search-icon">
+                                </button>
+                                <span class="close-search"></span>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="logo-container">
@@ -65,7 +81,7 @@
         <span class="sidebar-close">&times;</span>
         
         <div class="sidebar-header">
-            <a href="/users/">Профиль</a>
+            <a href="/users/">Профіль</a>
         </div>
 
         <div class="filter-section">
@@ -93,4 +109,5 @@
 <script src="{% static 'js/base.js' %}"></script>
 <script src="{% static 'js/wishlist.js' %}"></script>
 <script src="{% static 'js/list.js' %}"></script>
+<script src="{% static 'js/detail.js' %}"></script>
 </html>

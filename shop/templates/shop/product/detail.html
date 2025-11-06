@@ -1,39 +1,55 @@
 {% extends "shop/base.html" %}
 {% load static %}
+
 {% block title %}
-{{ product.name }}
+    {{ product.name }}
 {% endblock %}
+
 {% block content %}
-    <div class="product-detail">
-        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_img.png' %}{% endif %}"
-        class="img-fluid rounded" alt="{{ product.name }}">
+<div class="product-detail-container">
+    
+    <div class="product-gallery">
+        <div class="main-image-container">
+            <img src="{% if product.images.all %}{{ product.images.first.image.url }}{% else %}{% static 'img/no_img.png' %}{% endif %}" id="mainImage" class="img-fluid" alt="{{ product.name }}">
+        </div>
+        <div class="thumbnail-container">
+            {% for img in product.images.all %}
+                <img src="{{ img.image.url }}" class="thumbnail" alt="Мініатюра {{ forloop.counter }}" onclick="changeImage('{{ img.image.url }}', this)">
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="product-info">
         <h1>{{ product.name }}</h1>
         <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
+        
         {% if product.discount > 0 %}
-        <div class="card-discount">
-          <p>
-            <span class="old-price">{{ product.price }} ₴</span>
-            <span class="discount-percent">-{{ product.discount }}%</span>
-          </p>
-          <p class="new-price">{{ product.sell_price }} ₴</p>
-        </div>
-        {% else %}
-            <p class="price">{{ product.price }} ₴</p>
-        {% endif %}
-        {{ product.description|linebreaks }}
-        {% if in_cart %}
-            <div class="alert alert-info" role="alert">
-                Этот товар уже в вашей корзине
+            <div class="card-discount">
+                <p>
+                    <span class="old-price">{{ product.price }} ₴</span>
+                    <span class="discount-percent">-{{ product.discount }}%</span>
+                </p>
+                <p class="new-price">{{ product.sell_price }} ₴</p>
             </div>
-            <a href="{% url 'cart:cart_detail' %}" class="btn btn-primary">
-                Корзина
-            </a>
+        {% else %}
+            <p class="price">{{ product.price}} ₴</p>
+        {% endif %}
+        
+        <div class="product-description">
+            {{ product.description|linebreaks }}
+        </div>
+        
+        {% if in_cart %}
+            <div class="alert alert-info mt-3" role="alert">
+                Цей товар вже у вашому кошику
+            </div>
         {% else %}
             <form action="{% url 'cart:cart_add' product.id %}" method="post">
                 {{ cart_product_form }}
                 {% csrf_token %}
-                <input type="submit" value="Добавить в корзину" class="btn btn-success">
+                <input type="submit" value="Додати у кошик" class="btn btn-success">
             </form>
         {% endif %}
     </div>
+</div>
 {% endblock %}

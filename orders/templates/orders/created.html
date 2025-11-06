@@ -1,9 +1,22 @@
 {% extends "shop/base.html" %}
+{% load static %}
 
-{% block title %}Thank you{% endblock %}
+{% block title %}Дякуємо за замовлення{% endblock %}
 
 {% block content %}
-    <h1>Thank you</h1>
-    <p>Your order has been successfully completed. Your order number is
-        <strong>{{ order.id }}</strong>.</p>
+<div class="thank-you-container">
+    
+    <svg class="success-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="#D8F1E5"/>
+        <path fill="#28a745" d="M38.36,17.37a1.49,1.49,0,0,1,0,2.12l-13,13a1.49,1.49,0,0,1-2.12,0l-7-7a1.49,1.49,0,0,1,2.12-2.12L24.5,29.38l11.72-11.71A1.49,1.49,0,0,1,38.36,17.37Z"/>
+    </svg>
+    
+    <h1>Дякуємо!</h1>
+    
+    <p>Ваше замовлення було успішно оформлено. <br>Номер вашого замовлення:
+        <strong>#{{ order.id }}</strong>
+    </p>
+
+    <a href="{% url 'shop:product_list' %}" class="continue-shopping-btn">Продовжити покупки</a>
+</div>
 {% endblock %}

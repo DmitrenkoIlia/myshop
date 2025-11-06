@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Brand, Country, Universe, Character, Size, Material
+from .models import Category, Product, Brand, Country, Universe, Character, Size, Material, ProductImage
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug']
@@ -36,10 +36,15 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 admin.site.register(Category, CategoryAdmin)
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
+
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['name', 'slug', 'image', 'price', 'discount', 'stock', 'available', 'created', 'updated']
+    list_display = ['name', 'slug', 'price', 'discount', 'stock', 'available', 'created', 'updated']
     list_filter = ['available', 'created', 'updated']
     list_editable = ['price', 'discount', 'stock', 'available']
     prepopulated_fields = {'slug': ('name',)}
+    inlines = [ProductImageInline]
 admin.site.register(Product, ProductAdmin)

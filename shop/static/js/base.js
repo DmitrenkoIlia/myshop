@@ -32,4 +32,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    document.getElementById('search-trigger').addEventListener('click', function() {
+    document.getElementById('search-overlay').style.display = 'block';
+        
+    setTimeout(function() {
+        document.querySelector('.search-form input').focus();
+    }, 50);
+    });
+
+    document.querySelector('.close-search').addEventListener('click', function() {
+        document.getElementById('search-overlay').style.display = 'none';
+    });
+
+    document.getElementById('search-overlay').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.style.display = 'none';
+        }
+    });
 });

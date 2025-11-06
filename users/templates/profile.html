@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-
+<div class="profile-container">
     <div class="list-group list-group-flush">
         <a href="{% url 'users:profile_edit' %}" class="list-group-item list-group-item-action">
-            <i class="bi bi-pencil"></i> Редактировать профиль
+            <i class="bi bi-pencil"></i> Редагувати профіль
         </a>
         <a href="{% url 'account_logout' %}" class="list-group-item list-group-item-action text-danger">
-            <i class="bi bi-box-arrow-right"></i> Выйти
+            <i class="bi bi-box-arrow-right"></i> Вийти
         </a>
     </div>
     <div class="mb-3">
@@ -16,12 +16,12 @@
         <div class="text-muted">{{ user.email }}</div>
     </div>
     <div class="mb-3">
-        <strong>Имя и фамилия:</strong>
+        <strong>Ім'я та прізвище:</strong>
         <div class="text-muted">{{ user.profile.get_full_name }}</div>
     </div>
 
     <div class="mb-3">
-        <strong>Телефон:</strong>
+        <strong>Номер телефону:</strong>
         <div class="text-muted">{{ user.profile.phone|default:" " }}</div>
     </div>
     <div class="mb-3">
@@ -40,21 +40,21 @@
         <strong>Квартира:</strong>
         <div class="text-muted">{{ user.profile.flat|default:" " }}</div>
     </div>
-    <h2>Мои заказы</h2>
+    <h2>Мої замовлення</h2>
     {% if orders %}
         <ul>
         {% for order in orders %}
             <li>
-                Заказ №{{ order.id }} — {{ order.created }} —
+                Замовлення №{{ order.id }} — {{ order.created }} —
                 Сумма: {{ order.get_total_cost }} грн —
-                {% if order.paid %}Оплачено{% else %}Не оплачено{% endif %}
+                {% if order.paid %}Сплачено{% else %}Не сплачено{% endif %}
             </li>
         {% endfor %}
         </ul>
     {% else %}
-        <p>У вас ещё нет заказов.</p>
+        <p>У вас ще немає замовлень.</p>
     {% endif %}
 
 
-
+</div>
 {% endblock %}

@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     phone = models.CharField(max_length=20, blank=True, verbose_name='Телефон')
     city = models.CharField(max_length=100, blank=True, verbose_name='Місто')
-    address = models.CharField(max_length=100, blank=True, verbose_name='Вулиця')
+    street = models.CharField(max_length=100, blank=True, verbose_name='Вулиця')
     house = models.CharField(max_length=100, blank=True, verbose_name='Будинок')
     flat = models.CharField(max_length=100, blank=True, verbose_name='Квартира')
 
